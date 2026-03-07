@@ -8,21 +8,21 @@ This file is the single source of truth for any AI agent working on this project
 
 ### Core flow
 
-1. **Import a script** — Paste text, upload a PDF, or upload an image of a theater scene
-2. **Extract structure** — Parse the script into characters and their lines (dialogue turns)
-3. **Rehearse** — The AI gives the cue lines (other characters), the user delivers their own lines
-4. **Review** — At the end of a session, show a fidelity report: missed words, swapped phrases, accuracy score
+1. **Import a script** — Upload a PDF or image of a theater scene → AI extracts characters and dialogue
+2. **Rehearse** — The AI gives the cue lines (other characters), the user delivers their own lines
+3. **Review** — At the end of a session, show a fidelity report: missed words, swapped phrases, accuracy score
 
-### Versioned roadmap
+### Product bricks
 
-| Version | Scope | Status |
-|---------|-------|--------|
-| v0.1 | Text-only italienne (paste script, text-based rehearsal) | **current** |
-| v0.2 | Document extraction (PDF/image upload via vision API) | planned |
-| v0.3 | Voice mode (TTS for AI lines, STT for user lines) | planned |
-| v0.4 | Coaching & history (real-time corrections, session tracking) | planned |
+Each brick is built in its final form. We don't ship simplified versions to iterate — we build the real thing, one brick at a time.
 
-Specs for each version live in `specs/`. If a spec file is a stub, it means the spec hasn't been written yet — writing it may be your task.
+| Brick | Scope | Status |
+|-------|-------|--------|
+| 01 — Script Import | PDF/image upload → AI vision extraction → structured script | **current** |
+| 02 — Italienne | Rehearsal engine + fidelity report | planned |
+| 03 — Voice | TTS for AI cues, STT for user lines, hands-free mode | planned |
+
+Specs for each brick live in `specs/`. If a spec file is a stub, it means the spec hasn't been fully written yet — writing it may be your task.
 
 ## Tech Stack
 
