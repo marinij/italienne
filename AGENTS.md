@@ -25,8 +25,7 @@ Specs live in `specs/`. Stubs mean the spec hasn't been written yet — writing 
 1. `git pull origin main`
 2. `npm install`
 3. `npm test` — run existing tests to understand the project state
-4. `gh pr list` — check what other agents are working on
-5. Read the relevant spec in `specs/` for your task
+4. Read the relevant spec in `specs/` for your task
 
 ## Gotchas
 
