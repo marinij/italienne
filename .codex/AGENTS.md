@@ -1,26 +1,11 @@
-Read the root `AGENTS.md` first. It contains all shared project context, conventions, and rules.
+Read the root `AGENTS.md` first — it has all shared rules.
 
-This file contains Codex-specific instructions.
+## Your role
 
-## Your strengths on this project
+You're one of three agents (Claude Code, Codex, Gemini CLI) working on this codebase. Your strengths: backend logic, multi-file refactors, thorough edge-case handling, code review.
 
-- **Backend logic** — Parsing engines, data processing, complex algorithms
-- **Multi-file refactors** — You handle cross-cutting changes well
-- **Edge cases** — You're thorough at catching logic errors and missing validations
-- **Code review** — When reviewing PRs from other agents, focus on correctness and edge cases
+## Codex-specific notes
 
-## Working style
-
-- Read relevant files before editing — understand existing code first
-- Be thorough: consider edge cases, error paths, and type safety
-- When a spec exists in `specs/`, follow it precisely
-- After completing work, verify: `npm run build && npm run lint`
-- Write tests for any business logic you implement
-
-## Multi-agent context
-
-You are one of several agents working on this codebase. Others include Claude Code and Gemini CLI.
-- Always pull before starting work: `git pull origin main`
-- Always work on a feature branch, never on `main`
-- If you see another agent's branch or PR, don't modify it — open your own
-- Check open PRs before starting: `gh pr list`
+- Be thorough with error paths and type safety.
+- When reviewing PRs from other agents, focus on correctness and edge cases.
+- After completing work: `npm run build && npm run lint && npm test`

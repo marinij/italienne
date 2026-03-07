@@ -1,20 +1,16 @@
-# AGENTS.md — Shared Instructions for All Agents
+# AGENTS.md
 
-This file is the single source of truth for any AI agent working on this project. Read it fully before starting any task.
+Read this fully before starting any task.
 
-## Project Overview
+## What is this project?
 
-**Italienne** is a web app that helps actors learn their theater lines. Named after the "italienne" — a theater rehearsal technique where actors run through their lines together at speed.
+**Italienne** — a web app that helps actors learn their theater lines. Named after the "italienne", a theater rehearsal where actors run through lines at speed with a partner giving cues.
 
-### Core flow
+Core flow: upload a script (PDF/image) → AI extracts characters & dialogue → rehearse with AI giving cues → get a fidelity report.
 
-1. **Import a script** — Upload a PDF or image of a theater scene → AI extracts characters and dialogue
-2. **Rehearse** — The AI gives the cue lines (other characters), the user delivers their own lines
-3. **Review** — At the end of a session, show a fidelity report: missed words, swapped phrases, accuracy score
+## Product bricks
 
-### Product bricks
-
-Each brick is built in its final form. We don't ship simplified versions to iterate — we build the real thing, one brick at a time.
+Each brick is built in its final form. We build the real thing, one brick at a time.
 
 | Brick | Scope | Status |
 |-------|-------|--------|
@@ -22,111 +18,54 @@ Each brick is built in its final form. We don't ship simplified versions to iter
 | 02 — Italienne | Rehearsal engine + fidelity report | planned |
 | 03 — Voice | TTS for AI cues, STT for user lines, hands-free mode | planned |
 
-Specs for each brick live in `specs/`. If a spec file is a stub, it means the spec hasn't been fully written yet — writing it may be your task.
+Specs live in `specs/`. Stubs mean the spec hasn't been written yet — writing it may be your task.
 
-## Tech Stack
+## Before you start
 
-- **Framework**: Next.js 16 (App Router, `src/` directory)
-- **Language**: TypeScript (strict)
-- **Styling**: Tailwind CSS 4
-- **Deployment**: Vercel
-- **Package manager**: npm
+1. `git pull origin main`
+2. `npm install`
+3. `npm test` — run existing tests to understand the project state
+4. `gh pr list` — check what other agents are working on
+5. Read the relevant spec in `specs/` for your task
 
-## Architecture Decisions
+## Gotchas
 
-- **App Router only** — no Pages Router, no API routes under `pages/`
-- **Server Components by default** — use `"use client"` only when needed (interactivity, browser APIs)
-- **Route Handlers** for backend logic (`src/app/api/`)
-- **No ORM for now** — start with local state / localStorage. Database comes later if needed
-- **No external UI library** — Tailwind only. Keep it simple
+- **No Pages Router** — this project uses App Router exclusively. Don't create files under `pages/`.
+- **No UI library** — Tailwind only. Don't install component libraries.
+- **No database** — localStorage for now. Don't introduce an ORM or DB.
+- **Domain types live in `src/lib/types.ts`** — read them before creating new types. Extend, don't duplicate.
+- Theater scripts have **no standard format** — the parser must handle varied conventions (character names in CAPS, Title Case, abbreviated, etc.)
 
-## Conventions
+## How to work
 
-### Code style
-- Functional components, named exports
-- Use `async/await`, never raw `.then()` chains
-- Descriptive variable names — no abbreviations
-- Files: `kebab-case.ts` for utils, `PascalCase.tsx` for components
-- One component per file
+### Git rules
 
-### File structure
-```
-src/
-├── app/                    # Next.js routes
-│   ├── api/                # Route handlers
-│   ├── layout.tsx
-│   └── page.tsx
-├── components/             # Reusable UI components
-├── lib/                    # Business logic, utilities, types
-│   ├── parser/             # Script parsing logic
-│   ├── rehearsal/          # Rehearsal engine logic
-│   └── types.ts            # Shared types
-└── ...
-```
+- **Never commit to `main`**. Always branch: `feat/`, `fix/`, `refactor/`, `docs/`.
+- Small, focused PRs. One concern per PR.
+- PR description must explain what changed and why. Include manual testing evidence (screenshots for UI, curl output for API, test results for logic).
+- If you see another agent's branch or PR, don't touch it — open your own.
 
-### Types
-Key domain types (defined in `src/lib/types.ts`):
-```typescript
-interface Character {
-  name: string;
-}
+### Testing
 
-interface DialogueLine {
-  character: Character;
-  text: string;
-  order: number;
-}
+- **First run the tests.** Before any change, run `npm test` to understand what exists.
+- **Use red/green TDD.** Write tests first. Confirm they fail. Then implement. This applies to all business logic (parsers, rehearsal engine, scoring).
+- Tests live next to the code: `parser.test.ts` alongside `parser.ts`.
+- Don't test UI components unless they contain complex logic.
 
-interface Script {
-  title?: string;
-  characters: Character[];
-  lines: DialogueLine[];
-}
+### Verification
 
-interface RehearsalSession {
-  script: Script;
-  playingAs: Character;
-  responses: UserResponse[];
-}
-
-interface UserResponse {
-  expected: string;
-  actual: string;
-  fidelity: number; // 0-1
-}
+Before opening a PR, verify your work:
+```bash
+npm run build && npm run lint && npm test
 ```
 
-## Git Workflow
+If the project has a dev server, start it and manually test your changes. Don't just generate code — run it.
 
-**This is critical. All agents must follow this.**
-
-1. **Never commit directly to `main`**
-2. Create a feature branch: `feat/<short-description>` or `fix/<short-description>`
-3. Make small, focused commits with clear messages
-4. Push and open a PR via `gh pr create`
-5. PR description must explain what changed and why
-6. Wait for review before merging
-
-### Branch naming
-- `feat/parse-text-input` — new feature
-- `fix/dialogue-line-ordering` — bug fix
-- `refactor/extract-parser` — refactoring
-- `docs/update-spec` — documentation
-
-### Commit messages
-Imperative mood, concise: `Add text script parser`, `Fix character name extraction`, `Extract rehearsal engine to lib/`
-
-## Testing
-
-- Write tests for business logic (parser, rehearsal engine)
-- Use the built-in test runner (vitest when added)
-- Don't test UI components unless they contain complex logic
-- Tests live next to the code: `parser.test.ts` alongside `parser.ts`
-
-## Definition of Done (for PRs)
+## Definition of Done
 
 - [ ] Code compiles (`npm run build`)
 - [ ] Linter passes (`npm run lint`)
-- [ ] Tests pass (when test suite exists)
-- [ ] PR has a clear description
+- [ ] Tests pass (`npm test`)
+- [ ] New business logic has tests (red/green TDD)
+- [ ] PR has a clear description with testing evidence
 - [ ] No unrelated changes in the diff
