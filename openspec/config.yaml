@@ -1,0 +1,47 @@
+schema: spec-driven
+
+context: |
+  ## Project
+  Italienne — web app that helps actors learn their theater lines.
+  Named after the "italienne" — a theater rehearsal technique where actors run through lines at speed.
+
+  ## Core Flow
+  1. Import a script (paste text, upload PDF/image)
+  2. Extract structure (characters + dialogue turns)
+  3. Rehearse (AI gives cue lines, user delivers their own)
+  4. Review (fidelity report: missed words, accuracy score)
+
+  ## Tech Stack
+  - Next.js 16 (App Router, src/ directory)
+  - TypeScript (strict)
+  - Tailwind CSS 4
+  - Vercel deployment
+  - No external UI library, no ORM
+
+  ## Conventions
+  - Server Components by default, "use client" only when needed
+  - Route Handlers for backend (src/app/api/)
+  - Functional components, named exports, async/await
+  - Files: kebab-case.ts for utils, PascalCase.tsx for components
+
+  ## Roadmap
+  Product roadmap lives in roadmap/ (v0.1 through v0.4).
+  Read roadmap files for feature context before proposing changes.
+  Current milestone: v0.1 (text-only italienne, not yet implemented).
+
+rules:
+  proposal:
+    - Read the relevant roadmap file (roadmap/v0.X-*.md) for product context
+    - Keep scope small — one milestone or sub-feature per change
+    - Identify what's client-side vs server-side
+  specs:
+    - Use Given/When/Then format for scenarios
+    - Cover both happy path and edge cases
+    - Include parser edge cases (theater scripts have no standard format)
+  design:
+    - Prefer simplicity — no over-engineering for a side project
+    - Note client-side vs server-side split explicitly
+  tasks:
+    - Break into focused chunks (one component or one module per task)
+    - Include verification step (npm run build && npm run lint)
+    - Order tasks by dependency (types → logic → components → page)
